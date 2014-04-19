@@ -60,6 +60,14 @@ func (idx *Index) Remove(i I) {
     idx.Reverse = idx.Reverse[:lastj]
 }
 
+// Swap swaps the slots i and j ensuring the reverse table is up-to-date as
+// well.
+func (idx *Index) Swap(i, j I) {
+    a, b := idx.I[i], idx.I[j]
+    idx.I[i], idx.I[j] = b, a
+    idx.Reverse[a], idx.Reverse[b] = j, i
+}
+
 // Clears the entire index, removing everything. This does not deallocate data.
 func (idx *Index) Clear() {
     idx.I = idx.I[:0]
