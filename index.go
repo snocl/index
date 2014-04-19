@@ -68,6 +68,14 @@ func (idx *Index) Swap(i, j I) {
     idx.Reverse[a], idx.Reverse[b] = j, i
 }
 
+// SwapBacking swaps the slots with the backing indices i and j ensuring the
+// direct table is up-to-date as well.
+func (idx *Index) SwapBacking(i, j int) {
+    a, b := idx.Reverse[i], idx.Reverse[j]
+    idx.Reverse[i], idx.Reverse[j] = b, a
+    idx.I[a], idx.I[b] = j, i
+}
+
 // Clears the entire index, removing everything. This does not deallocate data.
 func (idx *Index) Clear() {
     idx.I = idx.I[:0]
